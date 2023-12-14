@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{uid}")
-    public User getUserByUid(@PathVariable UUID uid) {
-        return userRepository.findById(uid).orElse(null);
+    public ResponseEntity<User> getUserByUid(@PathVariable UUID uid) {
+        return userRepository.findById(uid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
