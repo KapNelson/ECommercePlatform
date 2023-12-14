@@ -14,9 +14,10 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
+@RequestMapping("/users")
 public class UserController {
-    private UserRepository userRepository;
-    @PostMapping("/users")
+    private final UserRepository userRepository;
+    @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
 
@@ -28,12 +29,12 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public List<User> getUsers(@RequestParam(required = false) String login) {
         return StringUtils.isEmpty(login) ? userRepository.findAll() : userRepository.findAllByLogin(login);
     }
 
-    @GetMapping("/users/{uid}")
+    @GetMapping("/{uid}")
     public User getUserByUid(@PathVariable UUID uid) {
         return userRepository.findById(uid).orElse(null);
     }
