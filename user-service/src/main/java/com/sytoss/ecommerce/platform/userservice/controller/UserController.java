@@ -1,7 +1,7 @@
 package com.sytoss.ecommerce.platform.userservice.controller;
 
 import com.sytoss.ecommerce.platform.userservice.model.User;
-import com.sytoss.ecommerce.platform.userservice.repository.UserRepository;
+import com.sytoss.ecommerce.platform.userservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody User user) {
-        User savedUser = userRepository.save(user);
+        User savedUser = userService.saveUser(user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{uid}")
@@ -31,11 +31,11 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers(@RequestParam(required = false) String login) {
-        return StringUtils.isEmpty(login) ? userRepository.findAll() : userRepository.findAllByLogin(login);
+        return StringUtils.isEmpty(login) ? userService.getUsers() : userService.getUsersByLogin(login);
     }
 
     @GetMapping("/{uid}")
     public ResponseEntity<User> getUserByUid(@PathVariable UUID uid) {
-        return userRepository.findById(uid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return userService.getUserByUid(uid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
