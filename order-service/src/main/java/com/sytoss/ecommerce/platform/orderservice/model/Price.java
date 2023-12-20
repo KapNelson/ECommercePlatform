@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class Price {
     private Double amount;
-    private String currency;
+    private Currency currency;
 }
