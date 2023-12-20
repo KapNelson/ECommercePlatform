@@ -19,7 +19,7 @@ public class Order {
     @Id
     private UUID uid;
     private String comment;
-    private String status;
+    private OrderStatus status;
     private String statusReason;
     private Double totalPrice;
     private User user;

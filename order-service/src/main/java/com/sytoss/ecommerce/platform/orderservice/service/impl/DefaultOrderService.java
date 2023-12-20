@@ -1,6 +1,8 @@
 package com.sytoss.ecommerce.platform.orderservice.service.impl;
 
 import com.sytoss.ecommerce.platform.orderservice.model.Order;
+import com.sytoss.ecommerce.platform.orderservice.model.OrderItem;
+import com.sytoss.ecommerce.platform.orderservice.model.OrderStatus;
 import com.sytoss.ecommerce.platform.orderservice.repository.OrderRepository;
 import com.sytoss.ecommerce.platform.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -16,11 +18,15 @@ public class DefaultOrderService implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order saveOrder(Order order) {
+    public Order createAndSaveOrder(Order order) {
         if (order.getUid() == null) {
             order.setUid(UUID.randomUUID());
         }
-        return orderRepository.save(order);
+
+        order.setTotalPrice(calculateTotalPrice(order));
+        order.setStatus(OrderStatus.NEW);
+
+        return saveOrder(order);
     }
 
     @Override
@@ -42,10 +48,38 @@ public class DefaultOrderService implements OrderService {
         existingOrder.setComment(newOrder.getComment());
         existingOrder.setStatus(newOrder.getStatus());
         existingOrder.setStatusReason(newOrder.getStatusReason());
-        existingOrder.setTotalPrice(newOrder.getTotalPrice());
+        existingOrder.setTotalPrice(calculateTotalPrice(newOrder));
         existingOrder.setUser(newOrder.getUser());
         existingOrder.setOrderItems(newOrder.getOrderItems());
 
         saveOrder(existingOrder);
+    }
+
+    private Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    private Double calculateTotalPrice(Order order) {
+        double totalPrice = 0.0;
+
+        if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
+            return totalPrice;
+        }
+
+        for (OrderItem orderItem : order.getOrderItems()) {
+            if (isCalculationPossible(orderItem)) {
+                totalPrice += orderItem.getProduct().getPrice().getAmount() * orderItem.getQuantity();
+            }
+        }
+
+        return totalPrice;
+    }
+
+    private boolean isCalculationPossible(OrderItem orderItem) {
+        return orderItem != null
+                && orderItem.getQuantity() != null
+                && orderItem.getProduct() != null
+                && orderItem.getProduct().getPrice() != null
+                && orderItem.getProduct().getPrice().getAmount() != null;
     }
 }

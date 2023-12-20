@@ -20,7 +20,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Void> createOrder(@RequestBody Order order) {
-        Order savedOrder = orderService.saveOrder(order);
+        Order savedOrder = orderService.createAndSaveOrder(order);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{uid}")

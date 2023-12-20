@@ -17,7 +17,7 @@ public interface OrderService {
      * @param order The order to be saved.
      * @return The saved order.
      */
-    Order saveOrder(Order order);
+    Order createAndSaveOrder(Order order);
 
     /**
      * Retrieves a list of orders associated with the specified user email.
