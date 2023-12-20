@@ -2,6 +2,8 @@ server:
   port: 8010
 
 spring:
+  application:
+    name: product-service
   jpa:
     show-sql: true
     hibernate:

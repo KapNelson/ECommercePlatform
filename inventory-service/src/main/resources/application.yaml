@@ -2,6 +2,8 @@ server:
   port: 8030
 
 spring:
+  application:
+    name: inventory-service
   jpa:
     show-sql: true
     hibernate:
