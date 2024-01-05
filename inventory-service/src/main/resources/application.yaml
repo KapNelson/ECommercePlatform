@@ -1,5 +1,6 @@
 server:
   port: 8030
+  forward-headers-strategy: framework
 
 spring:
   application:
