@@ -4,16 +4,9 @@ server:
 spring:
   application:
     name: user-service
+  config:
+    import: optional:configserver:http://localhost:8888
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-  datasource:
-    url: jdbc:mysql://localhost:3306/user-db
-    username: root
-    password: admin
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka

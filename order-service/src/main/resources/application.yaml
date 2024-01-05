@@ -4,15 +4,5 @@ server:
 spring:
   application:
     name: order-service
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: order-db
-      username: root
-      password: admin
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+  config:
+    import: optional:configserver:http://localhost:8888
