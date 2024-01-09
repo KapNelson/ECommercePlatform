@@ -1,5 +1,6 @@
 package com.sytoss.ecommerce.platform.orderservice.service.impl;
 
+import com.sytoss.ecommerce.platform.orderservice.kafka.producer.OrderProducer;
 import com.sytoss.ecommerce.platform.orderservice.model.Order;
 import com.sytoss.ecommerce.platform.orderservice.model.OrderItem;
 import com.sytoss.ecommerce.platform.orderservice.model.OrderStatus;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Service
 public class DefaultOrderService implements OrderService {
     private final OrderRepository orderRepository;
+    private final OrderProducer orderProducer;
 
     @Override
     public Order createAndSaveOrder(Order order) {
@@ -53,6 +55,11 @@ public class DefaultOrderService implements OrderService {
         existingOrder.setOrderItems(newOrder.getOrderItems());
 
         saveOrder(existingOrder);
+    }
+
+    @Override
+    public void sendOrderToStartFulfillment(Order order) {
+        orderProducer.sendOrder(order);
     }
 
     private Order saveOrder(Order order) {

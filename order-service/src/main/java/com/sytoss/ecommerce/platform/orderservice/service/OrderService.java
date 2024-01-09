@@ -43,5 +43,12 @@ public interface OrderService {
      * @throws IllegalArgumentException If the existingOrder or newOrder is null.
      */
     void updateOrder(Order existingOrder, Order newOrder);
+
+    /**
+     * Sends the specified order to the fulfillment service for processing.
+     *
+     * @param order The order to be sent for fulfillment.
+     */
+    void sendOrderToStartFulfillment(Order order);
 }
 

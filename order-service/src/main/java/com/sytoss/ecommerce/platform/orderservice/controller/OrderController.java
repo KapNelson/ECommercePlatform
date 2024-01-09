@@ -21,6 +21,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Void> createOrder(@RequestBody Order order) {
         Order savedOrder = orderService.createAndSaveOrder(order);
+        orderService.sendOrderToStartFulfillment(savedOrder);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{uid}")
