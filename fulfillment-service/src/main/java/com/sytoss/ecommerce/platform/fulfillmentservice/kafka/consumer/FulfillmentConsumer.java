@@ -9,11 +9,10 @@ import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
-@Component
+@Service
 @KafkaListener(topics = "${spring.kafka.topics.input-library}", groupId = "${spring.kafka.consumer.group-id}")
 public class FulfillmentConsumer {
 

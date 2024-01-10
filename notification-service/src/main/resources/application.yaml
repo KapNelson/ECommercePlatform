@@ -6,3 +6,12 @@ spring:
     import: optional:configserver:http://localhost:8888
   application:
     name: notification-service
+  kafka:
+    consumer:
+      group-id: NOTIFICATION
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: "Order:com.sytoss.ecommerce.platform.notificationservice.model.order.Order"
+    topics:
+      input-library: ORDERS
