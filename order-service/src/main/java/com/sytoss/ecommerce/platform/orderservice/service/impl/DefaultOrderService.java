@@ -27,6 +27,7 @@ public class DefaultOrderService implements OrderService {
 
         order.setTotalPrice(calculateTotalPrice(order));
         order.setStatus(OrderStatus.NEW);
+        order.setStatusReason("Order created and sent for processing");
 
         return saveOrder(order);
     }
