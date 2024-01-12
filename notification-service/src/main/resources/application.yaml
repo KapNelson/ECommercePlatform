@@ -3,7 +3,7 @@ server:
 
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://${CONFIG_SERVER:localhost}:8888
   application:
     name: notification-service
   kafka:

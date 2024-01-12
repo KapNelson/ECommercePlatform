@@ -24,7 +24,9 @@ services:
       start_period: 2s
     networks:
       - local-network
-
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      
   api-gateway:
     image: api-gateway:0.0.1
     container_name: api-gateway
@@ -45,6 +47,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      NAMING_SERVER: naming-server
 
   config-server:
     image: config-server:0.0.1
@@ -68,6 +73,8 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
 
   user-service:
     image: user-service:0.0.1
@@ -83,6 +90,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
 
   product-service:
     image: product-service:0.0.1
@@ -98,6 +108,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
 
   order-service:
     image: order-service:0.0.1
@@ -113,6 +126,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
 
   inventory-service:
     image: inventory-service:0.0.1
@@ -128,6 +144,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
 
   fulfillment-service:
     image: fulfillment-service:0.0.1
@@ -143,6 +162,9 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
 
   notification-service:
     image: notification-service:0.0.1
@@ -158,3 +180,6 @@ services:
         condition: service_healthy
     networks:
       - local-network
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVER: config-server
