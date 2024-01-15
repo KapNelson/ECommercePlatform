@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
-@FeignClient(name = "order-service", url = "${gateway.path}")
+@FeignClient(name = "order-service", url = "${path.order-service}")
 public interface OrderFeignClient {
 
-    @PutMapping("/order-service/orders/{uid}")
+    @PutMapping("/orders/{uid}")
     void updateOrder(
             @PathVariable("uid") UUID uid, @RequestBody Order order
     );

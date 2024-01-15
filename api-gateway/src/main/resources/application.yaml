@@ -6,10 +6,30 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lowerCaseServiceId: true
+      mvc:
+        routes:
+          - id: user-service
+            uri: lb://user-service
+            predicates:
+              - Path=/users/**
+          - id: product-service
+            uri: lb://product-service
+            predicates:
+              - Path=/products/**
+          - id: order-service
+            uri: lb://order-service
+            predicates:
+              - Path=/orders/**
+          - id: inventory-service
+            uri: lb://inventory-service
+            predicates:
+              - Path=/inventories/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${KEYCLOAK:localhost}:8080/realms/SpringBootKeycloak
+          jwk-set-uri: http://${KEYCLOAK:localhost}:8080/realms/SpringBootKeycloak/protocol/openid-connect/certs
 
 eureka:
   client:
